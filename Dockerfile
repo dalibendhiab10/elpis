@@ -30,15 +30,9 @@ COPY elpis-front/.env .env
 WORKDIR /app/elpis-back
 EXPOSE 4000
 
-# Expose the frontend port
+# Expose the frontend port (optional since React will be served via Nginx or externally)
 WORKDIR /app/elpis-front
 EXPOSE 3000
 
-# Install nginx
-RUN apt-get update && apt-get install -y nginx
-
-# Copy nginx config files
-COPY ./nginx.conf /etc/nginx/nginx.conf
-
-# Start both backend and frontend in parallel, and restart nginx
-CMD ["sh", "-c", "cd /app/elpis-back && npm start & cd /app/elpis-front && npm run build & service nginx restart && tail -f /dev/null"]
+# Start both backend and frontend in parallel
+CMD ["sh", "-c", "cd /app/elpis-back && npm start & cd /app/elpis-front && npm start & tail -f /dev/null"]
