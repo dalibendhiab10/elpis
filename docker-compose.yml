@@ -2,17 +2,20 @@ version: '3'
 
 services:
   elpis-back:
+    build:
+      context: .
     ports:
       - "4000:4000"
     environment:
       - NODE_ENV=development
     env_file:
       - ./elpis-back/.env
-    command: sh -c "npm install && npm start"  # Build and start the backend
     networks:
       - elpis-network
 
   elpis-front:
+    build:
+      context: .
     ports:
       - "3000:3000"
     environment:
@@ -20,11 +23,10 @@ services:
       - REACT_APP_API_HOST=https://api.elpis.tn/
     env_file:
       - ./elpis-front/.env
-    command: sh -c "npm install && npm run build "  # Build and start the frontend
     networks:
       - elpis-network
     volumes:
-      - ./elpis-front/build:/usr/share/nginx/html  # Share React build folder with Nginx
+      - ./elpis-front/build:/var/www/elpis  # Mount build directory to /var/www/elpis on VPS
     depends_on:
       - elpis-back  # Ensure backend starts first
 
