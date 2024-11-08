@@ -5,7 +5,7 @@ services:
       - "4000:4000"  # Backend port
       - "3000:3000"  # Frontend port
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     env_file:
       - ./elpis-back/.env
       - ./elpis-front/.env
