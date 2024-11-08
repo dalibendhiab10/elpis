@@ -35,4 +35,4 @@ WORKDIR /app/elpis-front
 EXPOSE 3000
 
 # Start both backend and frontend in parallel
-CMD ["sh", "-c", "cd /app/elpis-back && npm start & cd /app/elpis-front && npm start & tail -f /dev/null"]
+CMD ["sh", "-c", "cd /app/elpis-back && npm start  & tail -f /dev/null"]
