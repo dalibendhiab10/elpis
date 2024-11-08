@@ -26,23 +26,8 @@ services:
     command: ["sh", "-c", "npm install && npm run build"]
     networks:
       - elpis-network
-
-  nginx:
-    image: nginx:alpine
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./elpis-front/build:/usr/share/nginx/html
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-      - ./build:/usr/share/nginx/html/build  # Map React build directory to NGINX
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - elpis-front
-      - elpis-back
-    restart: always
-    networks:
-      - elpis-network
+      - ./elpis-front/build:/usr/share/nginx/html  # Shared path for Nginx to access the build folder
 
 networks:
   elpis-network:
