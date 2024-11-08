@@ -1,14 +1,29 @@
 version: '3.8'
 
 services:
-  elpis-app:
-    build: .
+  elpis-back:
+    build:
+      context: ./elpis-back  # Path to the backend Dockerfile
     ports:
-      - "4000:4000"  # Backend port
-      - "3000:3000"  # Frontend port
+      - "4000:4000"  # Expose backend port
     environment:
       - NODE_ENV=development
-    # Load environment variables from the .env files
     env_file:
-      - ./elpis-back/.env
-      - ./elpis-front/.env
+      - ./elpis-back/.env  # Load backend environment variables
+
+  elpis-front:
+    build:
+      context: ./elpis-front  # Path to the frontend Dockerfile
+    ports:
+      - "3000:3000"  # Expose frontend port
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_HOST=https://api.elpis.tn/  # Point to the backend API
+    env_file:
+      - ./elpis-front/.env  # Load frontend environment variables
+    depends_on:
+      - elpis-back  # Ensure frontend waits for backend to start
+
+networks:
+  default:
+    driver: bridge
