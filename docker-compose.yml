@@ -1,4 +1,3 @@
-
 services:
   elpis-back:
     build:
@@ -9,6 +8,8 @@ services:
       - NODE_ENV=development
     env_file:
       - ./elpis-back/.env
+    networks:
+      - app-network
 
   elpis-front:
     build:
@@ -20,6 +21,10 @@ services:
       - REACT_APP_API_HOST=https://api.elpis.tn/
     env_file:
       - ./elpis-front/.env
+    depends_on:
+      - elpis-back
+    networks:
+      - app-network
 
   nginx:
     image: nginx:alpine
@@ -32,3 +37,9 @@ services:
       - elpis-front
       - elpis-back
     restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
