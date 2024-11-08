@@ -15,6 +15,10 @@ RUN cd elpis-front && npm install
 # Copy all project files
 COPY . .
 
+# Build the frontend (React) app for production
+WORKDIR /app/elpis-front
+RUN npm run build  # This builds the React app into the 'build' directory
+
 # Copy environment variables for backend and frontend
 WORKDIR /app/elpis-back
 COPY elpis-back/.env .env
@@ -30,5 +34,11 @@ EXPOSE 4000
 WORKDIR /app/elpis-front
 EXPOSE 3000
 
-# Start both backend and frontend in parallel
-CMD ["sh", "-c", "cd /app/elpis-back && npm start & cd /app/elpis-front && npm build"]
+# Install nginx (if not installed already)
+RUN apt-get update && apt-get install -y nginx
+
+# Copy nginx config files (adjust the paths to your own nginx config)
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# Start both backend and frontend in parallel, and restart nginx
+CMD ["sh", "-c", "cd /app/elpis-back && npm start & cd /app/elpis-front && npm run build & service nginx restart && tail -f /dev/null"]
