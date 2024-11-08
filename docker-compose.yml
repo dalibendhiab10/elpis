@@ -32,6 +32,8 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./elpis-front/build:/usr/share/nginx/html
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+
     ports:
       - "80:80"
       - "443:443"
