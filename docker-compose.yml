@@ -27,7 +27,7 @@ services:
     networks:
       - elpis-network
     volumes:
-      - ./elpis-front/build:/usr/share/nginx/html  # Shared path for Nginx to access the build folder
+      - ./elpis-front/build:/var/www/elpis  # Share the React build folder with Nginx
 
 networks:
   elpis-network:
