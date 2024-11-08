@@ -1,7 +1,7 @@
 # Use a Node.js image
 FROM node:18
 
-# Set the working directory
+# Set the working directory for the app
 WORKDIR /app
 
 # Copy and install dependencies for elpis-back
@@ -26,18 +26,18 @@ COPY elpis-back/.env .env
 WORKDIR /app/elpis-front
 COPY elpis-front/.env .env
 
-# Set working directory to elpis-back and expose its port
+# Expose the backend port
 WORKDIR /app/elpis-back
 EXPOSE 4000
 
-# Set working directory to elpis-front and expose its port
+# Expose the frontend port
 WORKDIR /app/elpis-front
 EXPOSE 3000
 
-# Install nginx (if not installed already)
+# Install nginx
 RUN apt-get update && apt-get install -y nginx
 
-# Copy nginx config files (adjust the paths to your own nginx config)
+# Copy nginx config files
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
 # Start both backend and frontend in parallel, and restart nginx
