@@ -11,7 +11,7 @@ services:
     env_file:
       - ./elpis-back/.env
     networks:
-      - elpis-elpis-network
+      - elpis-network
 
   elpis-front:
     build:
@@ -25,7 +25,7 @@ services:
       - ./elpis-front/.env
     command: ["sh", "-c", "npm install && npm run build"]
     networks:
-      - elpis-elpis-network
+      - elpis-network
 
   nginx:
     image: nginx:alpine
@@ -42,7 +42,7 @@ services:
       - elpis-back
     restart: always
     networks:
-      - elpis-elpis-network
+      - elpis-network
 
 networks:
   elpis-network:
